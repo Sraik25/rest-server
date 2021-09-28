@@ -7,12 +7,15 @@ import {
   usersPatch,
   usersDelete,
 } from '../controllers/userController';
+
+
 import {
   existUserById,
   isValidatedEmail,
   isValidatedRole,
 } from '../helpers/db-validator';
-import { validatorFields } from '../middlewares/validator-fields';
+import { hasRole, validateJWT, validatorFields } from '../middlewares';
+
 
 const router = Router();
 
@@ -54,6 +57,9 @@ router.patch('/', usersPatch);
 router.delete(
   '/:id',
   [
+    validateJWT,
+    // isAdminRole,
+    hasRole('ADMIN-ROLE', 'VENTAS_ROLE', 'USER_ROLE'),
     check('id', 'No es un ID válido').isMongoId(),
     check('id').custom(existUserById),
     validatorFields,
