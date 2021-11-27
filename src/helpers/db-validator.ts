@@ -1,5 +1,4 @@
-import Role from '../models/role';
-import User from '../models/user';
+import { Category, Product, Role, User } from '../models';
 
 const isValidatedRole = async (role = '') => {
   const roleExist = await Role.findOne({ role });
@@ -18,4 +17,22 @@ const existUserById = async (id: string) => {
   if (userExist) throw new Error(`El id ${id} ya no existe`);
 };
 
-export { existUserById, isValidatedEmail, isValidatedRole };
+const existCategory = async (id: string) => {
+  const categoryExist = await Category.findById({ id });
+
+  if (categoryExist) throw new Error(`La categoria con el ${id} ya no existe`);
+};
+
+const existProduct = async (id: string) => {
+  const productExist = await Product.findById({ id });
+
+  if (productExist) throw new Error(`La producto con el ${id} ya no existe`);
+};
+
+export {
+  existCategory,
+  existProduct,
+  existUserById,
+  isValidatedEmail,
+  isValidatedRole,
+};

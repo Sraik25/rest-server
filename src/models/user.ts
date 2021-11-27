@@ -1,4 +1,4 @@
-import { model, Schema } from 'mongoose';
+import { Document, model, Schema } from 'mongoose';
 import { UserDto } from '../dtos/userDto';
 
 const UserSchema = new Schema<UserDto>({
@@ -39,4 +39,4 @@ UserSchema.methods.toJSON = function () {
   return user;
 };
 
-export default model('User', UserSchema);
+export default model<UserDto & Document>('User', UserSchema);

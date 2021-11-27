@@ -1,20 +1,27 @@
 import express, { Express } from 'express';
 import cors from 'cors';
-import users from '../routes/user';
-import auth from '../routes/auth';
+
 import { dbConecction } from '../database/config';
 
 class Server {
   app: Express;
   port: number;
-  userRoutePath: string;
-  authPath: string;
+  paths: {
+    auth: string;
+    users: string;
+    categories: string;
+    products: string;
+  };
 
   constructor() {
     this.app = express();
     this.port = Number(process.env.PORT);
-    this.userRoutePath = '/api/users';
-    this.authPath = '/api/auth';
+    this.paths = {
+      auth: '/api/auth',
+      users: '/api/users',
+      categories: '/api/categories',
+      products: '/api/products',
+    };
 
     // database
     this.database();
@@ -39,9 +46,10 @@ class Server {
   }
 
   routes() {
-    this.app.use(this.authPath, auth);
-
-    this.app.use(this.userRoutePath, users);
+    this.app.use(this.paths.auth, require('../routes/auth'));
+    this.app.use(this.paths.users, require('../routes/user'));
+    this.app.use(this.paths.categories, require('../routes/category'));
+    this.app.use(this.paths.products, require('../routes/product'));
   }
 
   listen() {

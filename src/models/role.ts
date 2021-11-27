@@ -1,4 +1,4 @@
-import { model, Schema } from 'mongoose';
+import { Document, model, Schema } from 'mongoose';
 import { RoleDto } from '../dtos/roleDto';
 
 const RoleSchema = new Schema<RoleDto>({
@@ -8,4 +8,4 @@ const RoleSchema = new Schema<RoleDto>({
   },
 });
 
-export default model('Roles', RoleSchema);
+export default model<RoleDto & Document>('Roles', RoleSchema);
